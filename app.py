@@ -3,21 +3,28 @@ from flask import Flask, render_template, url_for
 import requests
 import json
 
-import utils
+from utils import *
 
 
 app = Flask(__name__)
 
 @app.route("/")
 def main():
-	print(utils.trenderize(utils.get_purchases(utils.credit_card_id),"Food"))
-	return render_template("page.html", purchases=utils.get_purchases(utils.credit_card_id), balance=utils.get_balance(utils.credit_card_id))
+	purchases = get_purchases(credit_card_id)+get_purchases(savings_id)
+	purchases.sort(key=lambda x: (x[0], x[1]))
+	return render_template("page.html", purchases=purchases, 
+		balance=get_balance(credit_card_id),
+		balance1=get_balance(checking_id),
+		balance2=get_balance(savings_id))
 
 @app.route("/trends")
 def trends():
-	return render_template("page2.html", balance=utils.get_balance(utils.credit_card_id), 
-		food_data=utils.trenderize(utils.get_purchases(utils.credit_card_id),"Food"),
-		clothes_data=utils.trenderize(utils.get_purchases(utils.credit_card_id),"Clothes"))
+	all_purchases = get_purchases(credit_card_id)+get_purchases(savings_id)
+	return render_template("page2.html", balance=get_balance(credit_card_id),
+		balance1=get_balance(checking_id),
+		balance2=get_balance(savings_id),
+		food_data=trenderize(all_purchases,"Food"),
+		clothes_data=trenderize(all_purchases,"Clothes"))
 
 if __name__ == "__main__":
   app.debug = True

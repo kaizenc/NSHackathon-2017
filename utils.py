@@ -6,7 +6,7 @@ apiKey = '3a64a806ffb3ed0a94f771b9ae41a852'
 customerId = '5a0677d5b390353c953a251f'
 credit_card_id = '5a067873b390353c953a2520'
 checking_id = '5a0678e5b390353c953a2521'
-savings = '5a06798bb390353c953a2524'
+savings_id = '5a06798bb390353c953a2524'
 uber = '5a06b6d2b390353c953a258b'
 chipotle = '5a06b8f5b390353c953a2594'
 zara = '5a06b938b390353c953a2596'
@@ -18,7 +18,7 @@ def get_purchases(account_id): #returns array of all details
 	result = []
 	for i in purchases:
 		result.append(purchase_details(i["_id"]))
-	result.sort(key=lambda x: x[0])
+	result.sort(key=lambda x: (x[0], x[1]))
 	return result
 
 
@@ -35,8 +35,8 @@ def get_balance(account_id):
 	url = 'http://api.reimaginebanking.com/accounts/{}?key={}'.format(account_id,apiKey)
 	return requests.get(url).json()["balance"]
 
-def populate():
-	url = 'http://api.reimaginebanking.com/accounts/{}/purchases?key={}'.format(credit_card_id,apiKey)
+def populate(account_id):
+	url = 'http://api.reimaginebanking.com/accounts/{}/purchases?key={}'.format(account_id,apiKey)
 
 	merchants = [uber, chipotle, zara]
 	for i in range(5):
@@ -47,12 +47,7 @@ def populate():
 		  "amount": randint(1, 25)*5,
 		  "description": "description"
 		}
-		print(payload)
 		purchases = requests.post(url, data=json.dumps(payload), headers={'content-type':'application/json'})
-		if purchases.status_code == 201:
-			print('purchase loaded')
-		else:
-			print(purchases.json()["message"])
 
 def trenderize(all_purchases, category):
 	data = [0, 0, 0, 0, 0, 0, 0]
