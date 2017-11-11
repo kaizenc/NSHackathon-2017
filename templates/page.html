@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>FakeBank: AEB</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="static/css/normalize.css">
+  <link rel="stylesheet" href="static/css/skeleton.css">
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container" id="top_bit">
+    <div class="row" style="padding-top: 40px">
+      <h1>FakeBank <span style="float:right; font-size: 24px">Logged in as: Kaizen</span></h1>
+    </div>
+    <div class="row">
+      <h5> Accounts | Transfers | Expense Tracker | Messages and Alerts | Self-Service</h5>
+      <br>
+      <h4>Credit Card Balance: ${{ balance }}</h4>
+      <br>
+      <h3>AEB</h3>
+    </div>
+  </div>
+  <div class="container" id="chart">
+    <table class="u-full-width">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Expense</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for purchase in purchases %}
+        <tr>
+          <td>{{purchase[0]}}</td>
+          <td>{{purchase[1]}}</td>
+          <td>{{purchase[2]}}</td>
+          <td>{{purchase[3]}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+</html>

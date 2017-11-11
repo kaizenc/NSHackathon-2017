@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>FakeBank: Trends</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS & Java
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="static/css/normalize.css">
+  <link rel="stylesheet" href="static/css/skeleton.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="static/images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container" id="top_bit">
+    <div class="row" style="padding-top: 40px">
+      <h1>FakeBank <span style="float:right; font-size: 24px">Logged in as: Kaizen</span></h1>
+    </div>
+    <div class="row">
+      <h5> Accounts | Transfers | Expense Tracker | Messages and Alerts | Self-Service</h5>
+      <br>
+      <h4>Credit Card Balance: ${{ balance }}</h4>
+      <br>
+      <h3>Trends</h3>
+    </div>
+  </div>
+  <div class="container" id="chart">
+    <table class="u-full-width">
+      <thead>
+        <tr>
+          <th>Expense Type</th>
+          <th>Graph</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Food</td>
+          <td><canvas id="myChart1"></canvas></td>          
+        </tr>
+        <tr>
+          <td>Clothes</td>
+          <td><canvas id="myChart2"></canvas></td>          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    var ctx = document.getElementById('myChart1').getContext('2d');
+    var myLineChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ["May", "June", "July", "August", "September", "October", "November"],
+        datasets: [{
+            label: "Current Activity",          
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ food_data|safe }},
+        }, 
+        {
+          label: "Goal",
+          borderColor: 'rgb(0, 0, 0)',
+          data: [0, 10, 15, 20, 25, 30, 35]
+        }]
+      },
+      options: {}
+    });
+
+    var ctx2 = document.getElementById('myChart2').getContext('2d');
+    var myLineChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ["May", "June", "July", "August", "September", "October", "November"],
+        datasets: [{
+            label: "Current Activity",          
+            borderColor: 'rgb(255, 99, 132)',
+            data: {{ clothes_data|safe }},
+        }, 
+        {
+          label: "Goal",
+          borderColor: 'rgb(0, 0, 0)',
+          data: [0, 10, 15, 20, 25, 30, 35]
+        }]
+      },
+      options: {}
+    });
+  </script>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</body>
+
+</html>
