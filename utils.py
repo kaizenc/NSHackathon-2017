@@ -1,15 +1,7 @@
 import requests
 import json
 from random import *
-
-apiKey = '3a64a806ffb3ed0a94f771b9ae41a852'
-customerId = '5a0677d5b390353c953a251f'
-credit_card_id = '5a067873b390353c953a2520'
-checking_id = '5a0678e5b390353c953a2521'
-savings_id = '5a06798bb390353c953a2524'
-uber = '5a06b6d2b390353c953a258b'
-chipotle = '5a06b8f5b390353c953a2594'
-zara = '5a06b938b390353c953a2596'
+from vars import *
 
 
 def get_purchases(account_id): #returns array of all details
@@ -19,6 +11,12 @@ def get_purchases(account_id): #returns array of all details
 	for i in purchases:
 		result.append(purchase_details(i["_id"]))
 	result.sort(key=lambda x: (x[0], x[1]))
+	return result
+
+def sum_of_purchases(purchases):
+	result = 0
+	for i in purchases:
+		result+=i[3]
 	return result
 
 
@@ -50,9 +48,9 @@ def populate(account_id):
 		purchases = requests.post(url, data=json.dumps(payload), headers={'content-type':'application/json'})
 
 def trenderize(all_purchases, category):
-	data = [0, 0, 0, 0, 0, 0, 0]
+	data = [category, 0, 0, 0, 0, 0, 0, 0]
 	for i in all_purchases:
 		if(i[0] == category):
 			month = int(i[1].split('-')[1])
-			data[month-5] += i[3]
+			data[month-4] += i[3]
 	return data

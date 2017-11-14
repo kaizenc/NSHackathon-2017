@@ -10,21 +10,22 @@ app = Flask(__name__)
 
 @app.route("/")
 def main():
-	purchases = get_purchases(credit_card_id)+get_purchases(savings_id)
-	purchases.sort(key=lambda x: (x[0], x[1]))
-	return render_template("page.html", purchases=purchases, 
-		balance=get_balance(credit_card_id),
+	all_purchases = get_purchases(savings_id)+get_purchases(checking_id)
+	all_purchases.sort(key=lambda x: (x[0], x[1]))
+	return render_template("page.html",all_purchases=all_purchases,
 		balance1=get_balance(checking_id),
-		balance2=get_balance(savings_id))
+		balance2=get_balance(savings_id), 
+		expenses=sum_of_purchases(all_purchases))
 
 @app.route("/trends")
 def trends():
-	all_purchases = get_purchases(credit_card_id)+get_purchases(savings_id)
-	return render_template("page2.html", balance=get_balance(credit_card_id),
+	all_purchases = get_purchases(savings_id)+get_purchases(checking_id)
+	data_ = [trenderize(all_purchases,"Food"),trenderize(all_purchases,"Clothes"),trenderize(all_purchases,"Transportation")]
+	return render_template("page2.html",
 		balance1=get_balance(checking_id),
 		balance2=get_balance(savings_id),
-		food_data=trenderize(all_purchases,"Food"),
-		clothes_data=trenderize(all_purchases,"Clothes"))
+		data = data_, 
+		size = len(data_))
 
 if __name__ == "__main__":
   app.debug = True
