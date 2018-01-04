@@ -30,32 +30,17 @@
         {% for i in range(size) %}
         <tr>
           <td>{{ data[i][0]}}</td>
-          <td><canvas id="myChart{{i}}"></canvas></td>          
+          <td><div class="ct-chart ct-major-seventh" id="myChart{{i}}" style="width: 600px"></div></td>          
         </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
   <script>
-    var ctx;
-  {% for i in range(size) %}
-    ctx = document.getElementById('myChart'+{{i}}).getContext('2d');
-    var myLineChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ["May", "June", "July", "August", "September", "October", "November"],
-        datasets: [{
-            label: "Recorded Activity",          
-            borderColor: 'rgb(255, 99, 132)',
-            data: {{ data[i][1:]|safe }},
-        }, 
-        {
-          label: "Goal",
-          borderColor: 'rgb(0, 0, 0)',
-          data: [0,0,0,0,30,30,30]
-        }]
-      },
-      options: {}
+  {% for i in range(size) %} 
+    new Chartist.Line('#myChart'+{{i}}, {
+      labels: ["May", "June", "July", "August", "September", "October", "November"],
+      series: [{{ data[i][1:]|safe }}, [0,0,0,0,30,30,30]]
     });
     console.log({{data[i][1:]|safe}})
   {% endfor %}
